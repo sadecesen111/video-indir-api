@@ -11,7 +11,7 @@
   /home/sadeceeseen/video_app/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/bootstrap_builds/sdl2/jni/SDL/include/SDL_stdinc.h \
   /home/sadeceeseen/video_app/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/bootstrap_builds/sdl2/jni/SDL/include/SDL_log.h \
   /home/sadeceeseen/video_app/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/bootstrap_builds/sdl2/jni/SDL/include/SDL_cpuinfo.h \
-  /home/sadeceeseen/.buildozer/android/platform/android-ndk-r25b/sources/android/cpufeatures/cpu-features.h
+  /home/sadeceeseen/android-ndk-r25b/sources/android/cpufeatures/cpu-features.h
 
 /home/sadeceeseen/video_app/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/bootstrap_builds/sdl2/jni/SDL/src/cpuinfo/../SDL_internal.h:
 
@@ -35,4 +35,4 @@
 
 /home/sadeceeseen/video_app/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/bootstrap_builds/sdl2/jni/SDL/include/SDL_cpuinfo.h:
 
-/home/sadeceeseen/.buildozer/android/platform/android-ndk-r25b/sources/android/cpufeatures/cpu-features.h:
+/home/sadeceeseen/android-ndk-r25b/sources/android/cpufeatures/cpu-features.h:

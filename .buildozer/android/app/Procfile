@@ -1,1 +1,1 @@
-web: python3 video-indirme-api/sunucu.py
+web: gunicorn video-indirme-api/sunucu.app

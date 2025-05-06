@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">VideoDownloader</string>
-    <string name="private_version">b26e373d1d761f2596c8d55caa559790c9278f0b</string>
+    <string name="private_version">2b5979c67c74a3c5ebdbf7a0058a5a7eac54728d</string>
     <string name="presplash_color">#000000</string>
     <string name="urlScheme">kivy</string>
 </resources>

@@ -1,1 +1,1 @@
-web: gunicorn video-indir-api/api.app
+web: gunicorn video-indir-api/app.app

@@ -4,6 +4,10 @@ import os
 
 app = Flask(__name__)
 
+def my_hook(d):
+    if d['status'] == 'downloading':
+        print(f"İndirme %: {d['downloaded_bytes'] / d['total_bytes'] * 100:.2f}%")
+
 @app.route('/download', methods=['POST'])
 def download_video():
     data = request.get_json()
@@ -16,7 +20,8 @@ def download_video():
         ydl_opts = {
             'format': 'bestvideo+bestaudio/best',
             'outtmpl': 'downloads/%(title)s.%(ext)s',
-            'merge_output_format': 'mp4'
+            'merge_output_format': 'mp4',
+            'progress_hooks': [my_hook],  # İlerleme bilgisini al
         }
 
         os.makedirs('downloads', exist_ok=True)
@@ -30,4 +35,5 @@ def download_video():
 
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 5000))  # Railway için önemli
-    app.run(host='0.0.0.0', port=port)
+    app.run(host='0.0.0.0', port=port, debug=True)
+

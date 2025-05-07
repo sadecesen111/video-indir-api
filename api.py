@@ -11,7 +11,7 @@ def my_hook(d):
         print(f"İndirme %: {d['downloaded_bytes'] / d['total_bytes'] * 100:.2f}%")
 
 # Webhook URL'si (dış servis ile iletişim için)
-WEBHOOK_URL = "https://your-webhook-url.com"  # Burayı kendi webhook URL'nizle değiştirin
+WEBHOOK_URL = "https://web-production-f04a6.up.railway.app/"  # Sağladığınız URL
 
 # Webhook'a veri gönderen fonksiyon
 def send_webhook_notification(message):

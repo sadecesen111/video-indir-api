@@ -1,7 +1,0 @@
-services:
-  - type: web
-    name: video-indirme-api
-    env: python
-    plan: free
-    buildCommand: ""
-    startCommand: "python server.py"

@@ -1,3 +1,0 @@
-Flask
-yt_dlp
-flask-cors

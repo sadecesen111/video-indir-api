@@ -1,8 +1,15 @@
+import os
+import base64
 from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
 from yt_dlp import YoutubeDL
-import os
 import requests
+
+# Railway ortam değişkeninden cookies.txt dosyası oluştur
+cookies_b64 = os.getenv("COOKİES_B64")
+if cookies_b64:
+    with open("cookies.txt", "wb") as f:
+        f.write(base64.b64decode(cookies_b64))
 
 app = Flask(__name__)
 CORS(app)  # İstemci uygulamasından gelen istekleri kabul etmek için
@@ -68,6 +75,7 @@ def download_video():
             'outtmpl': 'downloads/%(title)s.%(ext)s',
             'merge_output_format': 'mp4',
             'progress_hooks': [my_hook],
+            'cookiefile': 'cookies.txt', # Çerez dosyasını ekliyoruz
         }
 
         # "downloads" klasörünü oluştur

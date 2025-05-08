@@ -70,7 +70,7 @@ class Downloader(BoxLayout):
         """Uygulama başlangıcında API sunucusuna bağlantıyı test eder"""
         try:
             # Önce domain çözümlemeyi test et
-            api_domain = "https://video-indirme-api-production-566f.up.railway.app"
+            api_domain = "web-production-f04a6.up.railway.app"
             socket.gethostbyname(api_domain)
             
             # Sonra API'ye basit bir istek gönder
@@ -116,7 +116,7 @@ class Downloader(BoxLayout):
         """Video indirme işlemini gerçekleştirir"""
         try:
             # Önce domain çözümlemeyi dene
-            api_domain = "https://video-indirme-api-production-566f.up.railway.app"
+            api_domain = "web-production-f04a6.up.railway.app"
             try:
                 socket.gethostbyname(api_domain)
             except socket.gaierror:

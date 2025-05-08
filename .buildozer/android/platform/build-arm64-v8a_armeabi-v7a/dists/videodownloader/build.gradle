@@ -21,7 +21,7 @@ apply plugin: 'com.android.application'
 
 
 android {
-    namespace 'org.example.videodownloader'
+    namespace 'com.sadecesen.videodownloader.videodownloader'
     compileSdkVersion 31
     buildToolsVersion '36.0.0'
     defaultConfig {

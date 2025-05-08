@@ -10,7 +10,12 @@ CORS(app)  # İstemci uygulamasından gelen istekleri kabul etmek için
 # İndirme ilerlemesini göstermek için hook fonksiyonu
 def my_hook(d):
     if d['status'] == 'downloading':
-        print(f"İndirme %: {d['downloaded_bytes'] / d['total_bytes'] * 100:.2f}%")
+        total_bytes = d.get('total_bytes') or d.get('total_bytes_estimated', 1)
+        if total_bytes > 1: # Hata önlemek için varsayılan 1
+           percent = (d['downloaded_bytes'] / total_bytes) * 100
+           print(f"İndirme %: {percent:.2f}%")
+        else:
+           print("İndirme devam ediyor, boyut bilgisi eksik.")
     elif d['status'] == 'finished':
         print("İndirme tamamlandı!")
 

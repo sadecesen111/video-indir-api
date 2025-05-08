@@ -5,7 +5,7 @@ import os
 import requests
 
 app = Flask(__name__)
-CORS(app)  # CORS ayarları, istemci uygulamasından gelen istekleri kabul etmek için
+CORS(app)  # İstemci uygulamasından gelen istekleri kabul etmek için
 
 # İndirme ilerlemesini göstermek için hook fonksiyonu
 def my_hook(d):
@@ -14,7 +14,7 @@ def my_hook(d):
     elif d['status'] == 'finished':
         print("İndirme tamamlandı!")
 
-# Webhook URL'si (şu an kullanılmıyor, gerekirse gerçek bir URL ekleyin)
+# Webhook URL'si (gerekirse gerçek bir URL ekleyin)
 WEBHOOK_URL = None
 
 # Webhook'a veri gönderen fonksiyon

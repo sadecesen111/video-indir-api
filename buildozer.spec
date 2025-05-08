@@ -37,7 +37,11 @@ version = 0.1
 
 # (list) Application requirements
 # comma separated e.g. requirements = sqlite3,kivy
+<<<<<<< HEAD
 requirements = python3,kivy,requests,jnius
+=======
+requirements = python3,kivy,requests
+>>>>>>> 448307edfb356cac5d4fa8bc0353b3dfe8c90cad
 
 # (str) Custom source folders for requirements
 # Sets custom source for any requirements with recipes

@@ -82,8 +82,18 @@ class Downloader(BoxLayout):
     def test_api_connection(self):
         """Uygulama başlangıcında API sunucusuna bağlantıyı test eder"""
         try:
+<<<<<<< HEAD
             response = self.session.get(
                 "https://web-production-f04a6.up.railway.app/status",
+=======
+            # Önce domain çözümlemeyi test et
+            api_domain = "web-production-f04a6.up.railway.app"
+            socket.gethostbyname(api_domain)
+            
+            # Sonra API'ye basit bir istek gönder
+            test_response = requests.get(
+                f"https://{api_domain}/status",
+>>>>>>> 448307edfb356cac5d4fa8bc0353b3dfe8c90cad
                 timeout=10
             )
             if response.status_code == 200:
@@ -121,7 +131,21 @@ class Downloader(BoxLayout):
     def download_video(self, url):
         """Video indirme işlemini gerçekleştirir"""
         try:
+<<<<<<< HEAD
             api_url = "https://web-production-f04a6.up.railway.app/download"
+=======
+            # Önce domain çözümlemeyi dene
+            api_domain = "web-production-f04a6.up.railway.app"
+            try:
+                socket.gethostbyname(api_domain)
+            except socket.gaierror:
+                self.update_status("❌ API sunucusu bulunamadı. İnternet bağlantınızı kontrol edin.")
+                Clock.schedule_once(lambda dt: setattr(self.download_button, 'disabled', False), 0)
+                return
+            
+            # API isteği için iki farklı yöntem dene
+            api_url = f"https://{api_domain}/download"
+>>>>>>> 448307edfb356cac5d4fa8bc0353b3dfe8c90cad
             
             # 1. Yöntem: POST JSON
             headers = {'Content-Type': 'application/json'}

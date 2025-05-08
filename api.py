@@ -6,7 +6,7 @@ from yt_dlp import YoutubeDL
 import requests
 
 # Railway ortam değişkeninden cookies.txt dosyası oluştur
-cookies_b64 = os.getenv("COOKİES_B64")
+cookies_b64 = os.getenv("COOKIES_B64")
 if cookies_b64:
     with open("cookies.txt", "wb") as f:
         f.write(base64.b64decode(cookies_b64))

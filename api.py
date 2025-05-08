@@ -1,39 +1,50 @@
-from flask import Flask, request, jsonify
-from yt_dlp import YoutubeDL
 import os
+from flask import Flask, request, jsonify
+import youtube_dl
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)
 
-def my_hook(d):
-    if d['status'] == 'downloading':
-        print(f"İndirme %: {d['downloaded_bytes'] / d['total_bytes'] * 100:.2f}%")
+# Sağlık kontrolü endpoint'i ekleyin
+@app.route('/status')
+def status():
+    return jsonify({"status": "ok"})
 
-@app.route('/download', methods=['POST'])
+@app.route('/download', methods=['GET', 'POST'])
 def download_video():
-    data = request.get_json()
-    url = data.get('url')
-
-    if not url:
-        return jsonify({'error': 'URL boş olamaz'}), 400
-
     try:
+        # POST ve GET isteklerini destekle
+        if request.method == 'POST':
+            if request.is_json:
+                data = request.get_json()
+                url = data.get('url')
+            else:
+                url = request.form.get('url')
+        else:  # GET isteği
+            url = request.args.get('url')
+        
+        if not url:
+            return jsonify({"error": "URL parametresi eksik"}), 400
+            
         ydl_opts = {
-            'format': 'bestvideo+bestaudio/best',
-            'outtmpl': 'downloads/%(title)s.%(ext)s',
-            'merge_output_format': 'mp4',
-            'progress_hooks': [my_hook],  # İlerleme bilgisini al
+            'format': 'best',
         }
-
-        os.makedirs('downloads', exist_ok=True)
-
-        with YoutubeDL(ydl_opts) as ydl:
-            ydl.download([url])
-
-        return jsonify({'message': 'İndirme başarılı'}), 200
+        
+        with youtube_dl.YoutubeDL(ydl_opts) as ydl:
+            info = ydl.extract_info(url, download=True)
+            video_info = {
+                'title': info.get('title', 'Unknown'),
+                'size': f"{info.get('filesize', 0) / (1024 * 1024):.2f} MB",
+                'filename': info.get('filename', 'Unknown')
+            }
+            
+        return jsonify({"success": True, "video": video_info})
+        
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        return jsonify({"error": str(e)}), 500
 
 if __name__ == '__main__':
-    port = int(os.environ.get("PORT", 5000))  # Railway için önemli
-    app.run(host='0.0.0.0', port=port, debug=True)
-
+    # PORT değişkenini Railway'den al
+    port = int(os.environ.get("PORT", 8080))
+    app.run(host='0.0.0.0', port=port)

@@ -198,13 +198,14 @@ class Downloader(BoxLayout):
             response = self.session.get(url, stream=True, timeout=60)
             if response.status_code == 200:
                 if platform == 'android':
-                    from jnius import autoclass
-                    Environment = autoclass('android.os.Environment')
-                    download_dir = Environment.getExternalStoragePublicDirectory(
-                        Environment.DIRECTORY_DOWNLOADS
-                    ).getAbsolutePath()
+                    from android.storage import primary_external_storage_path
+                    download_dir = os.path.join(primary_external_storage_path(), "Download")
                 else:
                     download_dir = os.path.expanduser("~/Downloads")
+                
+                # Klasör varsa oluştur
+                if not os.path.exists(download_dir):
+                    os.makedirs(download_dir)
                 
                 # Güvenli dosya adı oluştur
                 safe_title = "".join(c for c in title if c.isalnum() or c in (' ', '-', '_')).rstrip()

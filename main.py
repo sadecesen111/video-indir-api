@@ -44,11 +44,11 @@ class KivyLogger:
 class Downloader(BoxLayout):
     def __init__(self, **kwargs):
         super().__init__(orientation='vertical', padding=10, spacing=10, **kwargs)
-        
+
         self.logger = KivyLogger(self.update_status)
 
         self.url_input = TextInput(
-            hint_text='🎬 Video URL girin',
+            hint_text='🎮 Video URL girin',
             multiline=False,
             size_hint_y=0.1
         )
@@ -67,7 +67,7 @@ class Downloader(BoxLayout):
         self.add_widget(self.scroll_view)
 
         self.download_button = Button(
-            text='📥 İndir',
+            text='📅 İndir',
             size_hint_y=0.1,
             background_color=(0.2, 0.6, 1, 1)
         )
@@ -131,7 +131,7 @@ class Downloader(BoxLayout):
             Clock.schedule_once(lambda dt: self._reset_button(), 0)
 
     def _reset_button(self):
-        self.download_button.text = '📥 İndir'
+        self.download_button.text = '📅 İndir'
         self.download_button.disabled = False
 
     def process_api_response(self, response):
@@ -145,7 +145,7 @@ class Downloader(BoxLayout):
 
                 if download_url:
                     self.download_file(download_url, title)
-                self.update_status(f"✅ İndirme başarılı!\n\n📋 Başlık: {title}\n💾 Boyut: {size}")
+                self.update_status(f"✅ İndirme başarılı!\n\n📋 Başlık: {title}\n📂 Boyut: {size}")
             except json.JSONDecodeError:
                 self.update_status("✅ İndirme başarılı ancak video bilgileri alınamadı.")
         else:
@@ -161,6 +161,9 @@ class Downloader(BoxLayout):
             if response.status_code == 200:
                 if platform == 'android':
                     from android.storage import primary_external_storage_path
+                    from jnius import autoclass, cast
+                    from android import activity
+
                     download_dir = os.path.join(primary_external_storage_path(), "Download")
                 else:
                     download_dir = os.path.expanduser("~/Downloads")
@@ -175,7 +178,19 @@ class Downloader(BoxLayout):
                     for chunk in response.iter_content(chunk_size=8192):
                         if chunk:
                             f.write(chunk)
-                self.update_status(f"💾 Video kaydedildi: {file_path}")
+
+                self.update_status(f"📂 Video kaydedildi: {file_path}")
+
+                # Android galeriye bildir
+                if platform == 'android':
+                    MediaScannerConnection = autoclass('android.media.MediaScannerConnection')
+                    MediaScannerConnection.scanFile(
+                        cast('android.content.Context', autoclass('org.kivy.android.PythonActivity').mActivity),
+                        [file_path],
+                        None,
+                        None
+                    )
+                    self.update_status("✅ Video galeriye eklendi.")
             else:
                 self.update_status(f"❌ Video indirilemedi: HTTP {response.status_code}")
         except Exception as e:

@@ -17,6 +17,10 @@ from kivy.utils import platform
 # Android izinlerini iste (platform kontrolü aşağıda yapılır)
 if platform == 'android':
     from android.permissions import request_permissions, Permission
+    request_permissions([
+        Permission.WRITE_EXTERNAL_STORAGE,
+        Permission.READ_EXTERNAL_STORAGE
+    ])
 
 # Loglama ayarları
 logging.basicConfig(filename='app.log', level=logging.DEBUG)
@@ -185,10 +189,23 @@ class VideoApp(App):
     def on_start(self):
         logging.info("Uygulama başlatıldı.")
         if platform == 'android':
+            def callback(permissions, grants):
+                if all(grants):
+                    print("✔️ Tüm izinler verildi.")
+                    logging.info("Android izinleri alındı.")
+                else:
+                    print("❌ İzinler reddedildi.")
+                    logging.warning("Bazı Android izinleri reddedildi.")
+                    from kivy.uix.popup import Popup
+                    popup = Popup(title='İzin Gerekli',
+                                  content=Label(text='Lütfen dosya indirme için gerekli izinlere onay verin.'),
+                                  size_hint=(0.8, 0.3))
+                    popup.open()
+
             request_permissions([
                 Permission.READ_EXTERNAL_STORAGE,
                 Permission.WRITE_EXTERNAL_STORAGE
-            ])
+            ], callback)
 
 if __name__ == '__main__':
     VideoApp().run()
